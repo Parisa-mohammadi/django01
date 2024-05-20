@@ -1,12 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
 class Post(models.Model):
-    # author
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=250)
     content = models.TextField(max_length=1000)
-    # image
+    image = models.ImageField(upload_to='blog/', default='blog/default.jpg')
     # tag
     # category = models.CharField()
     counted_view = models.IntegerField(default=0)
@@ -17,5 +18,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_date']
+
     def __str__(self):
         return "{}-{}".format(self.title, self.id)

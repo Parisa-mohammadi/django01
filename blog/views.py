@@ -10,7 +10,10 @@ def blog_view(request):
 
 
 def blog_single(request, pid):
-    post = get_object_or_404(Post, pk=pid)
+    posts = Post.objects.filter(status=1)
+    post = get_object_or_404(posts, pk=pid)
+    # <<----->> 13 and 14 lines are used as similar as line 16 <<----->>
+    # post = get_object_or_404(Post, pk=pid, status=1)
     context = {'post': post}
     return render(request, 'blog/blog-single.html', context)
 
