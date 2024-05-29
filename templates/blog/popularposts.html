@@ -1,0 +1,12 @@
+{% load blog_tags %}
+<ul>
+    {% for post in posts %}
+    <li>
+    {{ post.title }}
+        <p style="text-align: justify" >{{ post.content|snippet:75 }}</p>
+        <br>
+        <p style="text-align: justify" >{{ post.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
