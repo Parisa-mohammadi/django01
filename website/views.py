@@ -1,6 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from website.forms import NameForm
+from website.forms import NameForm, ContactForm, NewsletterForm
+from website.models import Contact
+from django.contrib import messages
 
 
 def index_view(request):
@@ -9,20 +11,32 @@ def index_view(request):
 
 def contact_view(request):
     if request.method == "POST":
-        form = NameForm(request.POST)
+        form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-    form = NameForm()
+            messages.add_message(request,messages.SUCCESS,'Submited successfully')
+        else:
+            messages.add_message(request, messages.ERROR, 'Not Submited')
+    form = ContactForm()
     return render(request, 'website/contact.html', {'form': form})
 
+
+def Newsletter_view(request):
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/')
+        else:
+            return HttpResponseRedirect('/')
 
 def about_view(request):
     return render(request, 'website/about.html')
 
-
-def test(request):
+def test_view(request):
     if request.method == 'POST':
-        form = NameForm(request.POST)
+        form = ContactForm(request.POST)
         # email = request.POST.get('email')
         # message = request.POST.get('message')
         # c = Contact()
@@ -37,9 +51,9 @@ def test(request):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
             print(name, email, subject, message)
+            form.save()
             return HttpResponse("DONE")
         else:
             HttpResponse('Not valid')
-    else:
-        form = NameForm()
+    form = ContactForm()
     return render(request, 'test.html', {'form': form})

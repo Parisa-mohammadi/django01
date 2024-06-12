@@ -22,7 +22,7 @@
 <section class="contact-page-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="map-wrap" style="width:100%; height: 445px;" id="map"></div>
+<!--            <div class="map-wrap" style="width:100%; height: 445px;" id="map"></div>-->
             <div class="col-lg-4 d-flex flex-column address-wrap">
                 <div class="single-contact-address d-flex flex-row">
                     <div class="icon">
@@ -57,9 +57,33 @@
 
 
             <div class="col-lg-8">
-                <form class="form-area contact-form text-right" id="myForm" action="{% url 'website:contact' %}" method="post">
+
+                <form class="form-area contact-form text-right" action="{% url 'website:contact' %}" method="post">
+                    {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-error">
+                          <h4>Please fix the following errors</h4>
+                          <ul>
+                            {% for field in form %}
+                              {% if field.errors %}
+                                {% for error in field.errors %}
+                                  <li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+                                {% endfor %}
+                              {% endif %}
+                            {% endfor %}
+                          </ul>
+                          {% if form.non_field_errors %}
+                            {{ form.non_field_errors }}
+                          {% endif %}
+                        </div>
+                    {% endif %}
                     <div class="row">
-                        <!--
+                        {% csrf_token %}
                         <div class="col-lg-6 form-group">
                             <input name="name" placeholder="Enter your name" onfocus="this.placeholder = ''"
                                    onblur="this.placeholder = 'Enter your name'" class="common-input mb-20 form-control"
@@ -79,16 +103,14 @@
                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Messege'"
                                       required=""></textarea>
                         </div>
-
-                        -->
-                        {{form}}
                         <div class="col-lg-12">
                             <div class="alert-msg" style="text-align: left;"></div>
-                            <button class="genric-btn primary" style="float: right;">Send Message</button>
+                            <button class="genric-btn primary" type="submit" style="float: right;">Send Message</button>
                         </div>
                     </div>
                 </form>
             </div>
+
         </div>
     </div>
 </section>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from website.models import Contact
+from website.models import Contact, Newsletter
 
 
 # Register your models here.
@@ -10,3 +10,4 @@ class ContAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Contact, ContAdmin)
+admin.site.register(Newsletter)
