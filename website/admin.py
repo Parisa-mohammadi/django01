@@ -4,9 +4,10 @@ from website.models import Contact, Newsletter
 
 # Register your models here.
 class ContAdmin(admin.ModelAdmin):
-    name = 'name'
-    empty_value_display = '-empty-'
-    list_display = ('name', 'email', 'message', 'created_date', 'updated_date')
+    date_hierarchy = 'created_date'
+    list_display = ('name', 'email', 'created_date')
+    list_filter = ('email',)
+    search_fields = ['name', 'message']
 
 
 admin.site.register(Contact, ContAdmin)

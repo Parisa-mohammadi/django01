@@ -11,14 +11,20 @@ class NameForm(forms.Form):
 
 class ContactForm(forms.ModelForm):
     # last_name = forms.CharField(max_length=255)
+    # subject = forms.CharField(max_length=255, required=False)
 
     class Meta:
         model = Contact
         fields = '__all__'
         # fields = ['name', 'email']
 
-class NewsletterForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
 
+        # self.fields['subject'].required = False
+
+
+class NewsletterForm(forms.ModelForm):
     class Meta:
         model = Newsletter
         fields = '__all__'

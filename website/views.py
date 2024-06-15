@@ -5,6 +5,8 @@ from website.models import Contact
 from django.contrib import messages
 from django.views.generic.edit import UpdateView
 
+
+
 def index_view(request):
     return render(request, 'website/index.html')
 
@@ -13,13 +15,14 @@ def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            new_name = form.save()
+            new_name = form.save(commit=False)
             new_name.name = 'anonymous'
             new_name.save()
-            # form.save()
-            messages.add_message(request, messages.SUCCESS, 'Submited successfully')
+            form.save()
+            # messages.add_message(request, messages.SUCCESS, 'Submited successfully')
+            messages.success(request, 'Submited successfully')
         else:
-            messages.add_message(request, messages.ERROR, 'Not Submited')
+            messages.error(request, 'Not Submited')
     form = ContactForm()
     return render(request, 'website/contact.html', {'form': form})
 
@@ -62,3 +65,9 @@ def test_view(request):
             HttpResponse('Not valid')
     form = ContactForm()
     return render(request, 'test.html', {'form': form})
+
+
+MESSAGE_TAGS = {
+    messages.INFO: "",
+    50: "critical",
+}

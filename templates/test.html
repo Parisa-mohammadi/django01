@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script defer>
+        alert('Why no defer?!?');
+    </script>
+
+    <!-- alert('Hello world!'); -->
+    <script src="data:text/javascript;base64,YWxlcnQoJ0hlbGxvIHdvcmxkIScpOw=="
+            defer></script>
+
+    <script>
+        alert('Buh-bye world!');
+    </script>
 </head>
 <body>
 <form action="{% url 'website:test' %}" method="post">
