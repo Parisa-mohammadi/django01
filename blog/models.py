@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 # Create your models here.
@@ -31,3 +32,12 @@ class Post(models.Model):
 
     def snipped(self):
         return 'this is snipped'
+
+    """
+    
+    you can do this function in sitemaps.py as get_absolute_url(). Just dont forget to import reverse
+    
+    """
+    def get_absolute_url(self):
+        return reverse('blog:single', kwargs={'pid': self.id})
+        
